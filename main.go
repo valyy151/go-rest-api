@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,14 +16,15 @@ var todos = []todo{
 	{ID: "3", Item: "Learn German", Completed: false},
 }
 
-func getTodos(context *gin.Context) {
-	context.IndentedJSON(http.StatusOK, todos)
-}
-
 func main() {
 	router := gin.Default()
 
 	router.GET("/todos", getTodos)
-	router.Run("localhost:8080")
+	router.GET("/todos/:id", getTodoByID)
 
+	router.POST("/todos", addTodos)
+	router.DELETE("/todos/:id", deleteTodos)
+	router.PATCH("/todos/:id", updateTodoByID)
+
+	router.Run("localhost:8080")
 }
